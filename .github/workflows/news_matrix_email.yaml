@@ -74,7 +74,7 @@ jobs:
           subject: Github Actions [ ${{matrix.atp}} ]
           to: ${{matrix.atp}}@${{secrets.BASE_MAIL}}
           from: cndata
-          attachments: news/instances/series.db
+          attachments: news/instances/${{matrix.atp}}/series.db
           #secure: true
 
        #- name: aws setup

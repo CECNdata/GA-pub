@@ -19,7 +19,7 @@ jobs:
       matrix:
        include:
          - atp: CN-ZE
-           skype_id: 19:1aff469494654be8a854f36cbb68d7ec@thread.skype
+           skype_id: 19:0f08ab319e7a431c9a013633f11b0c8b@thread.skype
            skype_username : SKYPE_MINE_USERNAME
            skype_password : SKYPE_MINE_PASSWORD
            FILE_BASE: series.db

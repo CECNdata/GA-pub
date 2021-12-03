@@ -59,6 +59,7 @@ jobs:
 
       - name: run news atp
         run: |
+            tree
             cd news/instances/${{matrix.atp}}
             export download="python pdp"
             $download || ($download  2>/dev/null) #retry command twice 

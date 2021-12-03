@@ -63,6 +63,22 @@ jobs:
             cd news/instances/${{matrix.atp}}
             python pdp.py ; python parser.py  --if_filter True --file_path download/
 
+      - name: Send mail
+        uses: dawidd6/action-send-mail@v3
+        with:
+          #server_address: smtp.gmail.com
+          #server_port: 465
+          server_address: smtp-mail.outlook.coms
+          server_port: 587
+          username : ${{ secrets.SKYPE_MINE_USERNAME }}
+          password : ${{ secrets.SKYPE_MINE_PASSWORD }}
+          # Required mail subject:
+          subject: Github Actions [ ${{matrix.atp}} ]
+          to: ${{matrix.atp}}@${{secrets.BASE_MAIL}}
+          from: cndata
+          secure: true
+          attachments: ${{ matrix.FILE_BASE }}
+
        #- name: aws setup
        #  if: ${{ env.IF_AWS == 'True'}}
        #  run: |

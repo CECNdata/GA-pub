@@ -22,7 +22,6 @@ jobs:
            skype_id: 19:0f08ab319e7a431c9a013633f11b0c8b@thread.skype
            skype_username : SKYPE_MINE_USERNAME
            skype_password : SKYPE_MINE_PASSWORD
-           FILE_BASE: series.db
            IF_AWS       : False
            IF_PLAYWRIGHT: False
            repo_name  : CECNdata/GA-sec
@@ -72,12 +71,11 @@ jobs:
           server_port: 587
           username : ${{ secrets.SKYPE_MINE_USERNAME }}
           password : ${{ secrets.SKYPE_MINE_PASSWORD }}
-          # Required mail subject:
           subject: Github Actions [ ${{matrix.atp}} ]
           to: ${{matrix.atp}}@${{secrets.BASE_MAIL}}
           from: cndata
-          secure: true
-          attachments: ${{ matrix.FILE_BASE }}
+          attachments: news/instances/series.db
+          #secure: true
 
        #- name: aws setup
        #  if: ${{ env.IF_AWS == 'True'}}

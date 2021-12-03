@@ -1,4 +1,4 @@
-name: 'misc_playwrigt_matrix'
+name: 'misc_news_matrix_email'
 
 on:
   workflow_dispatch:

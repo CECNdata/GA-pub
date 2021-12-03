@@ -75,7 +75,6 @@ jobs:
           to: ${{matrix.atp}}@${{secrets.BASE_MAIL}}
           from: cndata
           attachments: news/instances/${{matrix.atp}}/series.db
-          #secure: true
 
        #- name: aws setup
        #  if: ${{ env.IF_AWS == 'True'}}

@@ -59,7 +59,7 @@ jobs:
 
       - name: run news atp
         run: |
-            cd instances/${{matrix.atp}}
+            cd news/instances/${{matrix.atp}}
             export download="python pdp"
             $download || ($download  2>/dev/null) #retry command twice 
             export parser="python3 parser.py  --if_filter True --file_path download"

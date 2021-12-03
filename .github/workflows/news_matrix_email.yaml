@@ -68,7 +68,7 @@ jobs:
         with:
           #server_address: smtp.gmail.com
           #server_port: 465
-          server_address: smtp-mail.outlook.coms
+          server_address: smtp-mail.outlook.com
           server_port: 587
           username : ${{ secrets.SKYPE_MINE_USERNAME }}
           password : ${{ secrets.SKYPE_MINE_PASSWORD }}

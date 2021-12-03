@@ -60,7 +60,7 @@ jobs:
       - name: run news atp
         run: |
             cd news/instances/${{matrix.atp}}
-            python pdp.py ; python parser.py  --if_filter True --file_path download/
+            python pdp.py ; python parser.py  --if_filter False --file_path download/
 
       - name: Send mail
         uses: dawidd6/action-send-mail@v3

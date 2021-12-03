@@ -60,10 +60,7 @@ jobs:
       - name: run news atp
         run: |
             cd news/instances/${{matrix.atp}}
-            export download="python pdp.py"
-            $download || ($download  2>/dev/null) #retry command twice 
-            export parser="python3 parser.py  --if_filter True --file_path download"
-            $parser || ($parser 2>/dev/null ) #retry command twice 
+            python pdp.py ; python parser.py  --if_filter True --file_path download/
 
        #- name: aws setup
        #  if: ${{ env.IF_AWS == 'True'}}

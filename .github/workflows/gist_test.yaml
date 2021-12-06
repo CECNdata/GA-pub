@@ -28,6 +28,6 @@ jobs:
         with:
           auth: ${{ secrets.SEC_TOKEN }}
           gist_url: https://gist.github.com/CECNdata/8a9ec1720c1afd4fa99956e0a444d3c6
-          gist_title: Example Gist Title
-          gist_description: Example Gist Description
+          gist_title: GA-MD5 for ${{ env.GITHUB_REPOSITORY }}
+          gist_description: ${{ env.GITHUB_WORKFLOW }}
           github_file: md5.txt

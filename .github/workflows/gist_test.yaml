@@ -13,7 +13,7 @@ jobs:
         id: example-gist
         with:
           gist_id: 8a9ec1720c1afd4fa99956e0a444d3c6
-          file_name: md5.txt
+          file_name: GA-md5
         env:
           GITHUB_TOKEN: ${{ secrets.SEC_TOKEN }}
       - name: show content

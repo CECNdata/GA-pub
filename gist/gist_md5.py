@@ -1,64 +1,59 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-
 import fire
 import hashlib
 import os,sys
-import httpx
+from pprint import pprint
 
-def walk_path_parser(path,date_regex_compile,clean,if_filter,pdp_msg,skype_ids):
+def md5(file_path):
+    m = hashlib.md5()
+    with open(file_path, 'rb') as f:
+        while True:
+            data = f.read(4096)
+            if not data:
+                break
+            m.update(data)
+    return m.hexdigest()
+
+
+def walk_path_parser(path):
+    file_list=[]
     if os.path.isdir(path):
-        print(f"file_dir: {path}")
         for filename in os.listdir(path):
-            walk_path_parser(path=f"{path}/{filename}",date_regex_compile=date_regex_compile,if_filter=if_filter,clean=clean,p
-dp_msg=pdp_msg,skype_ids=skype_ids)
+            file_list.extend(walk_path_parser(f"{path}/{filename}"))
     elif os.path.isfile(path):
-        pdp_msg_list=pdp_msg.split('|--|')
-        print(f"file_path: {path}")
-        file_name=path.split("/")[-1]
-        mappings_all=mapping2_xlsx2dict(sheet_path="mapping.xlsx",sheet_name="main",file_name=file_name)
-        for filename in mappings_all:
-            if filename in os.path.basename(path):
-                print("*"*50)
-                print(f"[html2sqlite]:{file_name}")
-                if_html2text=False if "_noh" in file_name else True
-                html2sqlite(html_path=path,mapping=mappings_all[filename],date_regex_compile=date_regex_compile,clean=clean,if_filter=if_filter,pdp_msg_list=pdp_msg_list,skype_ids=skype_ids,if_html2text=if_html2text)
-                print()
-                print()
-                print("*"*50)
-                print("*"*50)
-                return()
-    else:
-        print(f"{path} is not exist")
+        file_list.extend([[os.path.basename(path),path,md5(path)]])
+    return(file_list)
 
 
-def walk_path_parser()
-        if os.path.isdir(path):
-            for filename in os.listdir(path):
+def gist_md5(file_dir="./download",file_md5="./md5.txt"):
+    final_file_list=[]
+    for f in file_dir.strip().split():
+        final_file_list.extend(walk_path_parser(f))
+    #pprint(final_file_list)
 
-def gist_md5(file_dir="",file_md5="./md5.txt",gist_url=None):
-    """
-    计算文件的md5值
-    """
-    if gist_url!=None:
+    content=[]
+    if os.path.exists(file_md5):
+        with open(file_md5) as f:
+            content = f.readlines()
+        content = [x.strip() for x in content]
+    init_len=len(content)
+    
+    for final in final_file_list:
+        if final[2] in content:
+            #print(final[1])
+            os.remove(final[1])
+        else:
+            content=[final[2]]+content
 
-
-    def md5(file_path):
-        """
-        计算文件的md5值
-        """
-        m = hashlib.md5()
-        with open(file_path, 'rb') as f:
-            while True:
-                data = f.read(4096)
-                if not data:
-                    break
-                m.update(data)
-        return m.hexdigest()
-
-    fire.Fire(md5)
+    final_len=len(content)
+    print(final_len-init_len)
+    content=content[:1000]
+    #pprint(content)
+    fo = open(file_md5, "w")
+    fo.write("\n".join(content))
+    fo.close()
 
 if __name__ == '__main__':
   fire.Fire(gist_md5)
-

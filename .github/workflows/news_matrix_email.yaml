@@ -26,6 +26,7 @@ jobs:
            IF_PLAYWRIGHT: False
            repo_name  : CECNdata/GA-sec
            repo_token : SEC_TOKEN
+           gist_id : 8a9ec1720c1afd4fa99956e0a444d3c6
            
     steps:
       - name: Checkout codes
@@ -62,7 +63,38 @@ jobs:
             cd news/instances/${{matrix.atp}}
             python pdp.py ; python parser.py  --if_filter False --file_path download/
 
+      - name: gist-read
+        uses: sergeysova/gist-read-action@v1
+        id: example-gist
+        with:
+          gist_id: ${{matrix.gist_id}}
+          file_name: md5.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.SEC_TOKEN }}
+
+      - name: save gist content
+        run: echo "Hello ${{ steps.example-gist.outputs.content }}" > md5.txt
+
+      - name: md5_count
+        run: |
+            files_num=`python gist/gist_md5.py --file_md5="./index.txt" --file_dir="news/instances/${{matrix.atp}}/series.db"`
+            echo $files_num
+            echo '::set-output name=FILE_NUM::'$files_num
+        id: gist-md5
+
+
+      - uses: popsiclestick/gist-sync-action@v1.2.0
+        if  :  steps.gist_md5.conclusion == 'skipped' || steps.gist_md5.outputs.FILE_NUM != '0'  
+        with:
+          auth: ${{ secrets.SEC_TOKEN }}
+          gist_url: https://gist.github.com/CECNdata/8a9ec1720c1afd4fa99956e0a444d3c6
+          gist_title: md5.txt
+          gist_description: ${{ env.GITHUB_WORKFLOW }}
+          github_file: md5.txt
+
+
       - name: Send mail
+        if  :  steps.gist_md5.conclusion == 'skipped' || steps.gist_md5.outputs.FILE_NUM != '0'  
         uses: dawidd6/action-send-mail@v3
         with:
           #server_address: smtp.gmail.com

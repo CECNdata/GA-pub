@@ -91,13 +91,12 @@ jobs:
             cat md5.txt
         id: gist-md5
 
-
       - uses: popsiclestick/gist-sync-action@v1.2.0
         #if  :  steps.gist_md5.conclusion == 'skipped' || steps.gist_md5.outputs.FILE_NUM != '0'  
         if  :  steps.gist-md5.outputs.FILE_NUM != '0'  
         with:
           auth: ${{ secrets.SEC_TOKEN }}
-          gist_url: https://gist.github.com/CECNdata/8a9ec1720c1afd4fa99956e0a444d3c6
+          gist_url: https://gist.github.com/CECNdata/${{ secrets.gist_id }}
           gist_title: md5.txt
           gist_description: ${{ env.GITHUB_WORKFLOW }}
           github_file: md5.txt

@@ -75,9 +75,6 @@ jobs:
             pwd
             tree
 
-      - name: Checkout
-        uses: actions/checkout@v2
-
       - name: gist-read
         uses: sergeysova/gist-read-action@v1
         id: example-gist
@@ -89,8 +86,9 @@ jobs:
 
       - name: md5_count
         run: |
+            wget https://raw.githubusercontent.com/CECNdata/GA-pub/main/gist/gist_md5.py
             echo "${{ steps.example-gist.outputs.content }}" > md5.txt
-            files_num=`python gist/gist_md5.py --file_md5="./index.txt" --file_dir="news/instances/${{matrix.atp}}/series.db"`
+            files_num=`python gist_md5.py --file_md5="./md5.txt" --file_dir="news/instances/${{matrix.atp}}/series.db"`
             echo $files_num
             echo '::set-output name=FILE_NUM::'$files_num
         id: gist-md5

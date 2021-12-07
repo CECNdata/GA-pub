@@ -71,6 +71,9 @@ jobs:
         run: |
             cd news/instances/${{matrix.atp}}
             python pdp.py ; python parser.py  --if_filter False --file_path download/
+            ls
+            pwd
+            tree
 
       - name: Checkout
         uses: actions/checkout@v2
@@ -84,11 +87,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.SEC_TOKEN }}
 
-      - name: save gist content
-        run: echo "Hello ${{ steps.example-gist.outputs.content }}" > md5.txt
-
       - name: md5_count
         run: |
+            echo "${{ steps.example-gist.outputs.content }}" > md5.txt
             files_num=`python gist/gist_md5.py --file_md5="./index.txt" --file_dir="news/instances/${{matrix.atp}}/series.db"`
             echo $files_num
             echo '::set-output name=FILE_NUM::'$files_num

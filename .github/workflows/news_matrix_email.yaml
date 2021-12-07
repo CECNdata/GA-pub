@@ -103,19 +103,23 @@ jobs:
 
 
       - name: Send mail
+        uses: Wandalen/wretry.action@v1.0.11
         if  : steps.gist-md5.outputs.FILE_NUM != '0'  
-        uses: dawidd6/action-send-mail@v3
         with:
-          #server_address: smtp.gmail.com
-          #server_port: 465
-          server_address: smtp-mail.outlook.com
-          server_port: 587
-          username : ${{ secrets.SKYPE_MINE_USERNAME }}
-          password : ${{ secrets.SKYPE_MINE_PASSWORD }}
-          subject: Github Actions [ ${{matrix.atp}} ]
-          to: ${{matrix.atp}}@${{secrets.BASE_MAIL}}
-          from: cndata
-          attachments: news/instances/${{matrix.atp}}/series.db
+          action: dawidd6/action-send-mail@v3
+          with: |
+            #server_address: smtp.gmail.com
+            #server_port: 465
+            server_address: smtp-mail.outlook.com
+            server_port: 587
+            username : ${{ secrets.SKYPE_MINE_USERNAME }}
+            password : ${{ secrets.SKYPE_MINE_PASSWORD }}
+            subject: Github Actions [ ${{matrix.atp}} ]
+            to: ${{matrix.atp}}@${{secrets.BASE_MAIL}}
+            from: cndata
+            attachments: news/instances/${{matrix.atp}}/series.db
+          attempt_limit: 3
+          attempt_delay: 2000
 
        #- name: aws setup
        #  if: ${{ env.IF_AWS == 'True'}}

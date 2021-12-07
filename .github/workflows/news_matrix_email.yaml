@@ -1,6 +1,8 @@
 name: 'misc_news_matrix_email'
 
 on:
+  schedule:
+    - cron:  '*/8 * * * *'
   workflow_dispatch:
     inputs:
         logLevel:
@@ -9,8 +11,6 @@ on:
           default: 'warning'
         tags:
           description: 'action'  
-   schedule:
-     - cron:  '*/8 * * * *'
 
 jobs:
   shell:

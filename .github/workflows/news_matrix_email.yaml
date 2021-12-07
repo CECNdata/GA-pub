@@ -2,7 +2,7 @@ name: 'misc_news_matrix_email'
 
 on:
   schedule:
-    - cron:  '*/8 * * * *'
+    - cron:  '*/15 * * * *'
   workflow_dispatch:
     inputs:
         logLevel:

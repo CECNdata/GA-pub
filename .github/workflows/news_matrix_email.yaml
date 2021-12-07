@@ -96,7 +96,7 @@ jobs:
         if  :  steps.gist-md5.outputs.FILE_NUM != '0'  
         with:
           auth: ${{ secrets.SEC_TOKEN }}
-          gist_url: https://gist.github.com/CECNdata/${{ secrets.gist_id }}
+          gist_url: https://gist.github.com/CECNdata/${{ matrix.gist_id }}
           gist_title: md5.txt
           gist_description: ${{ env.GITHUB_WORKFLOW }}
           github_file: md5.txt

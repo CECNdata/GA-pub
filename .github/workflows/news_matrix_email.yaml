@@ -9,8 +9,8 @@ on:
           default: 'warning'
         tags:
           description: 'action'  
-   #schedule:
-   #  - cron:  '*/8 * * * *'
+   schedule:
+     - cron:  '*/8 * * * *'
 
 jobs:
   shell:

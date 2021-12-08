@@ -9,6 +9,8 @@ on:
           description: 'Log level'     
           required: true
           default: 'warning'
+        tags:
+          description: 'action'  
 
 jobs:
   shell:
@@ -17,7 +19,7 @@ jobs:
       matrix:
        include:
          - atp: CN-ZE
-           skype_id: 19:655268b00f704dfc8e71592f93d73bd3@thread.skype
+           skype_id: 19:0f08ab319e7a431c9a013633f11b0c8b@thread.skype
            skype_username : SKYPE_MINE_USERNAME
            skype_password : SKYPE_MINE_PASSWORD
            IF_AWS       : False
@@ -26,7 +28,7 @@ jobs:
            repo_token : SEC_TOKEN
            gist_id : 8a9ec1720c1afd4fa99956e0a444d3c6
          - atp: TWD-DO
-           skype_id: 19:655268b00f704dfc8e71592f93d73bd3@thread.skype
+           skype_id: 19:0f08ab319e7a431c9a013633f11b0c8b@thread.skype
            skype_username : SKYPE_MINE_USERNAME
            skype_password : SKYPE_MINE_PASSWORD
            IF_AWS       : False

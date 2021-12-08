@@ -5,10 +5,6 @@ on:
     - cron:  '*/15 * * * *'
   workflow_dispatch:
     inputs:
-        logLevel:
-          description: 'Log level'     
-          required: true
-          default: 'warning'
         tags:
           description: 'action'  
 
@@ -34,6 +30,7 @@ jobs:
            repo_name  : CECNdata/GA-sec
            repo_token : SEC_TOKEN
            gist_id : ce2fbcb34df6c8ed823d6f511d9773c9
+
     steps:
       - name: Checkout codes
         uses: actions/checkout@v2
@@ -120,15 +117,15 @@ jobs:
           attempt_limit: 3
           attempt_delay: 2000
 
-       - name: send skype
-         uses: Eloco/docker-action-send-skype@v2
-         if  : steps.gist-md5.outputs.FILE_NUM != '0'  
-         with:
-             skype_username : ${{ secrets.SKYPE_MINE_USERNAME }}
-             skype_password : ${{ secrets.SKYPE_MINE_PASSWORD }}
-             skype_ids      : ${{ matrix.skype_id  }}
-             send_msg_path  : message.txt
-             send_file_path : none
+      - name: send skype
+        uses: Eloco/docker-action-send-skype@v2
+        if  : steps.gist-md5.outputs.FILE_NUM != '0'
+        with:
+            skype_username : ${{ secrets.SKYPE_MINE_USERNAME }}
+            skype_password : ${{ secrets.SKYPE_MINE_PASSWORD }}
+            skype_ids      : ${{ matrix.skype_id  }}
+            send_msg_path  : message.txt
+            send_file_path : none
        
        #- name: aws setup
        #  if: ${{ env.IF_AWS == 'True'}}

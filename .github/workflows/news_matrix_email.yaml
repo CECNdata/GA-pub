@@ -126,7 +126,7 @@ jobs:
             skype_password : ${{ secrets.SKYPE_MINE_PASSWORD }}
             skype_ids      : ${{ matrix.skype_id  }}
             send_msg_path  : message.txt
-            send_file_path : series.db
+            send_file_path : news/instances/${{matrix.atp}}/series.db
        
        #- name: aws setup
        #  if: ${{ env.IF_AWS == 'True'}}

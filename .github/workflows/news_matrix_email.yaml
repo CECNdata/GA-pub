@@ -36,7 +36,6 @@ jobs:
            repo_name  : CECNdata/GA-sec
            repo_token : SEC_TOKEN
            gist_id : ce2fbcb34df6c8ed823d6f511d9773c9
-           
     steps:
       - name: Checkout codes
         uses: actions/checkout@v2

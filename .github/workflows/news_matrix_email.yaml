@@ -5,10 +5,6 @@ on:
     - cron:  '*/15 * * * *'
   workflow_dispatch:
     inputs:
-        logLevel:
-          description: 'Log level'     
-          required: true
-          default: 'warning'
         tags:
           description: 'action'  
 
@@ -19,7 +15,7 @@ jobs:
       matrix:
        include:
          - atp: CN-ZE
-           skype_id: 19:0f08ab319e7a431c9a013633f11b0c8b@thread.skype
+           skype_id: 19:655268b00f704dfc8e71592f93d73bd3@thread.skype
            skype_username : SKYPE_MINE_USERNAME
            skype_password : SKYPE_MINE_PASSWORD
            IF_AWS       : False
@@ -28,7 +24,7 @@ jobs:
            repo_token : SEC_TOKEN
            gist_id : 8a9ec1720c1afd4fa99956e0a444d3c6
          - atp: TWD-DO
-           skype_id: 19:0f08ab319e7a431c9a013633f11b0c8b@thread.skype
+           skype_id: 19:655268b00f704dfc8e71592f93d73bd3@thread.skype
            skype_username : SKYPE_MINE_USERNAME
            skype_password : SKYPE_MINE_PASSWORD
            IF_AWS       : False
@@ -85,6 +81,7 @@ jobs:
         run: |
             wget https://raw.githubusercontent.com/CECNdata/GA-pub/main/gist/gist_md5.py
             echo "${{ steps.example-gist.outputs.content }}" > md5.txt
+            echo "[GA] ${{matrix.atp}} just capture new!" > message.txt
             files_num=`python gist_md5.py --file_md5="./md5.txt" --file_dir="news/instances/${{matrix.atp}}/series.db"`
             echo $files_num
             echo '::set-output name=FILE_NUM::'$files_num
@@ -114,13 +111,24 @@ jobs:
             server_port: 587
             username : ${{ secrets.SKYPE_MINE_USERNAME }}
             password : ${{ secrets.SKYPE_MINE_PASSWORD }}
-            subject: Github Actions [ ${{matrix.atp}} ]
+            subject: Actions for [ ${{matrix.atp}} ]
+            body: ${{matrix.atp}} just capture new release!
             to: ${{matrix.atp}}@${{secrets.BASE_MAIL}}
             from: cndata
             attachments: news/instances/${{matrix.atp}}/series.db
           attempt_limit: 3
           attempt_delay: 2000
 
+       - name: send skype
+         uses: Eloco/docker-action-send-skype@v2
+         if  : steps.gist-md5.outputs.FILE_NUM != '0'  
+         with:
+             skype_username : ${{ secrets.SKYPE_MINE_USERNAME }}
+             skype_password : ${{ secrets.SKYPE_MINE_PASSWORD }}
+             skype_ids      : ${{ matrix.skype_id  }}
+             send_msg_path  : message.txt
+             send_file_path : none
+       
        #- name: aws setup
        #  if: ${{ env.IF_AWS == 'True'}}
        #  run: |
@@ -145,14 +153,3 @@ jobs:
        #  id: aws-md5
        #  env:
        #      IF_AWS: ${{ matrix.IF_AWS }}
-
-       #- name: send skype
-       #  uses: Eloco/docker-action-send-skype@v2
-       #  if  : env.IF_AWS == 'False' || steps.aws-md5.conclusion == 'skipped' || steps.aws-md5.outputs.FILE_NUM != '0'  
-       #  with:
-       #      skype_username : ${{ secrets.SKYPE_MINE_USERNAME }}
-       #      skype_password : ${{ secrets.SKYPE_MINE_PASSWORD }}
-       #      skype_ids      : ${{ matrix.skype_id  }}
-       #      send_msg_path  : ${{ matrix.FILE_BASE }}
-       #      send_file_path : none
-

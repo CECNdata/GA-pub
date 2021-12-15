@@ -108,7 +108,7 @@ jobs:
             subject: Actions for [ ${{matrix.atp}} ]
             body: ${{matrix.atp}} just capture new release!
             to: ${{matrix.atp}}@${{secrets.BASE_MAIL}},${{matrix.SKYPE_MINE_USERNAME}}
-            from: cndata
+            from: ${{ secrets.GMAIL_USERNAME }}
             attachments: attach.zip
           attempt_limit: 3
           attempt_delay: 2000

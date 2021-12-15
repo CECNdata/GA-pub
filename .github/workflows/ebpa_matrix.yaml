@@ -15,6 +15,7 @@ jobs:
       matrix:
        include:
          - atp: CN-GED
+           if_skype: True
            skype_id: 19:655268b00f704dfc8e71592f93d73bd3@thread.skype
            skype_username : SKYPE_MINE_USERNAME
            skype_password : SKYPE_MINE_PASSWORD
@@ -23,8 +24,8 @@ jobs:
            repo_token : SEC_TOKEN
            gist_id : 07f692e939c5a9b27f2d9fe5d87aa785
          - atp: CND-P
-           skype_id: False
-           #skype_id: 19:655268b00f704dfc8e71592f93d73bd3@thread.skype 19:0f08ab319e7a431c9a013633f11b0c8b@thread.skype
+           if_skype: False
+           skype_id: 19:655268b00f704dfc8e71592f93d73bd3@thread.skype 19:0f08ab319e7a431c9a013633f11b0c8b@thread.skype
            skype_username : SKYPE_MINE_USERNAME
            skype_password : SKYPE_MINE_PASSWORD
            IF_PLAYWRIGHT: True
@@ -125,7 +126,7 @@ jobs:
 
       - name: send skype
         uses: Eloco/docker-action-send-skype@v2
-        if  : steps.gist-md5.outputs.FILE_NUM != '0' && ${{ env.IF_SKYPE != 'false'}}
+        if  : steps.gist-md5.outputs.FILE_NUM != '0' && ${{ env.IF_SKYPE == 'True'}}
         with:
             skype_username : ${{ secrets.SKYPE_MINE_USERNAME }}
             skype_password : ${{ secrets.SKYPE_MINE_PASSWORD }}
@@ -133,7 +134,7 @@ jobs:
             send_msg_path  : Ebpa/modules/message.txt
             send_file_path : attach.zip
         env:
-            IF_SKYPE: ${{ matrix.skype_id }}
+            IF_SKYPE: ${{ matrix.if_skype }}
 
        #- name: aws setup
        #  if: ${{ env.IF_AWS == 'True'}}

@@ -103,6 +103,7 @@ jobs:
           with: |
             server_address: smtp.gmail.com
             server_port: 587
+            secure: false
             username : ${{ secrets.GMAIL_USERNAME }}
             password : ${{ secrets.GMAIL_PASSWORD }}
             subject: Actions for [ ${{matrix.atp}} ]

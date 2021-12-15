@@ -61,7 +61,7 @@ jobs:
 
       - name: run news atp
         run: |
-            cd news/modules
+            cd Ebpa/modules
             python ebpa.py  --atp_name ${{ matrix.atp }}
 
       - name: gist-read

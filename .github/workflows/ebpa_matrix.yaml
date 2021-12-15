@@ -123,18 +123,18 @@ jobs:
           gist_description: ${{ env.GITHUB_WORKFLOW }}
           github_file: md5.txt
 
-      - name: send skype
-        uses: Eloco/docker-action-send-skype@v2
-        if  : ${{ env.IF_SKYPE  == 'True'}}
-        #if  : (steps.gist-md5.outputs.FILE_NUM != '0') && ${{ env.IF_SKYPE  == 'True'}}
-        with:
-            skype_username : ${{ secrets.SKYPE_MINE_USERNAME }}
-            skype_password : ${{ secrets.SKYPE_MINE_PASSWORD }}
-            skype_ids      : ${{ matrix.skype_id  }}
-            send_msg_path  : Ebpa/modules/message.txt
-            send_file_path : attach.zip
-        env:
-            IF_SKYPE: ${{ matrix.if_skype }}
+      #- name: send skype
+      #  uses: Eloco/docker-action-send-skype@v2
+      #  if  : ${{ env.IF_SKYPE  == 'True'}}
+      #  #if  : (steps.gist-md5.outputs.FILE_NUM != '0') && ${{ env.IF_SKYPE  == 'True'}}
+      #  with:
+      #      skype_username : ${{ secrets.SKYPE_MINE_USERNAME }}
+      #      skype_password : ${{ secrets.SKYPE_MINE_PASSWORD }}
+      #      skype_ids      : ${{ matrix.skype_id  }}
+      #      send_msg_path  : Ebpa/modules/message.txt
+      #      send_file_path : attach.zip
+      #  env:
+      #      IF_SKYPE: ${{ matrix.if_skype }}
 
        #- name: aws setup
        #  if: ${{ env.IF_AWS == 'True'}}

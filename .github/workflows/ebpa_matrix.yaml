@@ -125,7 +125,7 @@ jobs:
 
       - name: send skype
         uses: Eloco/docker-action-send-skype@v2
-        if  : steps.gist-md5.outputs.FILE_NUM != '0' && ${{ env.if_skype  == 'True'}}
+        if  : steps.gist-md5.outputs.FILE_NUM != '0' && ${{ env.IF_SKYPE  == 'True'}}
         with:
             skype_username : ${{ secrets.SKYPE_MINE_USERNAME }}
             skype_password : ${{ secrets.SKYPE_MINE_PASSWORD }}

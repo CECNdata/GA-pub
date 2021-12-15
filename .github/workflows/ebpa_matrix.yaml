@@ -59,7 +59,7 @@ jobs:
         env:
             IF_PLAYWRIGHT: ${{ matrix.IF_PLAYWRIGHT }}
 
-      - name: run news atp
+      - name: run ebpa
         run: |
             cd Ebpa/modules
             python ebpa.py  --atp_name ${{ matrix.atp }}
@@ -77,8 +77,8 @@ jobs:
         run: |
             wget https://raw.githubusercontent.com/CECNdata/GA-pub/main/gist/gist_md5.py
             echo "${{ steps.example-gist.outputs.content }}" > md5.txt
-            echo "[GA] [EBPA] ${{matrix.atp}} just capture new!" > news/modules/message.txt
-            files_num=`python gist_md5.py --file_md5="./md5.txt" --file_dir="news/modules/download/"`
+            echo "[GA] [EBPA] ${{matrix.atp}} just capture new!" > Ebpa/modules/message.txt
+            files_num=`python gist_md5.py --file_md5="./md5.txt" --file_dir="Ebpa/modules/download/"`
             echo $files_num
             echo '::set-output name=FILE_NUM::'$files_num
             cat md5.txt
@@ -87,7 +87,7 @@ jobs:
       - name: zip_download
         if  : steps.gist-md5.outputs.FILE_NUM != '0'  
         run: |
-            zip -r attach.zip news/modules/download/*
+            zip -r attach.zip Ebpa/modules/download/*
 
       - name: Send mail
         id: retry
@@ -126,7 +126,7 @@ jobs:
             skype_username : ${{ secrets.SKYPE_MINE_USERNAME }}
             skype_password : ${{ secrets.SKYPE_MINE_PASSWORD }}
             skype_ids      : ${{ matrix.skype_id  }}
-            send_msg_path  : news/modules/message.txt
+            send_msg_path  : Ebpa/modules/message.txt
             send_file_path : attach.zip
        
        #- name: aws setup

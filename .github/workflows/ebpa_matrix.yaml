@@ -15,7 +15,7 @@ jobs:
       matrix:
        include:
          - atp: CN-GED
-           if_skype: True
+           if_skype: False
            skype_id: 19:655268b00f704dfc8e71592f93d73bd3@thread.skype
            skype_username : SKYPE_MINE_USERNAME
            skype_password : SKYPE_MINE_PASSWORD
@@ -125,7 +125,8 @@ jobs:
 
       - name: send skype
         uses: Eloco/docker-action-send-skype@v2
-        if  : (steps.gist-md5.outputs.FILE_NUM != '0') && ${{ env.IF_SKYPE  == 'True'}}
+        if  : ${{ env.IF_SKYPE  == 'True'}}
+        #if  : (steps.gist-md5.outputs.FILE_NUM != '0') && ${{ env.IF_SKYPE  == 'True'}}
         with:
             skype_username : ${{ secrets.SKYPE_MINE_USERNAME }}
             skype_password : ${{ secrets.SKYPE_MINE_PASSWORD }}

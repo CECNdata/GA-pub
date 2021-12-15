@@ -102,7 +102,7 @@ jobs:
           action: dawidd6/action-send-mail@v3
           with: |
             server_address: smtp.gmail.com
-            server_port: 465
+            server_port: 587
             username : ${{ secrets.GMAIL_USERNAME }}
             password : ${{ secrets.GMAIL_PASSWORD }}
             subject: Actions for [ ${{matrix.atp}} ]

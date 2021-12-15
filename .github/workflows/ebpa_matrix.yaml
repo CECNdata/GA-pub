@@ -97,15 +97,17 @@ jobs:
         with:
           #server_address: smtp.gmail.com
           #server_port: 465
+          #server_address: smtp-mail.outlook.com
+          #server_port: 587
           action: dawidd6/action-send-mail@v3
           with: |
-            server_address: smtp-mail.outlook.com
-            server_port: 587
-            username : ${{ secrets.SKYPE_MINE_USERNAME }}
-            password : ${{ secrets.SKYPE_MINE_PASSWORD }}
+            server_address: smtp.gmail.com
+            server_port: 465
+            username : ${{ secrets.GMAIL_USERNAME }}
+            password : ${{ secrets.GMAIL_PASSWORD }}
             subject: Actions for [ ${{matrix.atp}} ]
             body: ${{matrix.atp}} just capture new release!
-            to: ${{matrix.atp}}@${{secrets.BASE_MAIL}}
+            to: ${{matrix.atp}}@${{secrets.BASE_MAIL}},${{matrix.SKYPE_MINE_USERNAME}}
             from: cndata
             attachments: attach.zip
           attempt_limit: 3
@@ -122,7 +124,7 @@ jobs:
 
       - name: send skype
         uses: Eloco/docker-action-send-skype@v2
-        if  : steps.gist-md5.outputs.FILE_NUM != '0' && ${{ env.IF_SKYPE != 'False'}}
+        if  : steps.gist-md5.outputs.FILE_NUM != '0' && ${{ env.IF_SKYPE != 'false'}}
         with:
             skype_username : ${{ secrets.SKYPE_MINE_USERNAME }}
             skype_password : ${{ secrets.SKYPE_MINE_PASSWORD }}

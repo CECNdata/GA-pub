@@ -1,4 +1,4 @@
-name: 'misc_news_matrix_email'
+name: 'ebpa_matrix'
 
 on:
   schedule:

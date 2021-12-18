@@ -83,7 +83,7 @@ jobs:
             files_num=`python gist_md5.py --file_md5="./md5.txt" --file_dir="news/instances/${{matrix.atp}}/series.db"`
             echo $files_num
             echo '::set-output name=FILE_NUM::'$files_num
-            cat md5.txt
+            head md5.txt
         id: gist-md5
 
 

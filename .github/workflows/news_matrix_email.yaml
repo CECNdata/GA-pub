@@ -64,7 +64,7 @@ jobs:
       - name: run news atp
         run: |
             cd news/instances/${{matrix.atp}}
-            python pdp.py > pdp.log 2>&1 ; cat pdp.log ;  python parser.py  --if_filter False --file_path download/
+            (python pdp.py ;  python parser.py  --if_filter False --file_path download/) > pdp.log 2>&1 ; cat pdp.log
 
       - name: gist-read
         uses: sergeysova/gist-read-action@v1

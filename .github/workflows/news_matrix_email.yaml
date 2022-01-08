@@ -62,9 +62,10 @@ jobs:
             IF_PLAYWRIGHT: ${{ matrix.IF_PLAYWRIGHT }}
 
       - name: run news atp
+        continue-on-error: true
         run: |
             cd news/instances/${{matrix.atp}}
-            (python pdp.py ;  python parser.py  --if_filter False --file_path download/) &> pdp.log ; cat pdp.log
+            python pdp.py ;  python parser.py  --if_filter False --file_path download/
 
       - name: gist-read
         uses: sergeysova/gist-read-action@v1

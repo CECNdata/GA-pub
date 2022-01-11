@@ -85,14 +85,12 @@ jobs:
       #  id: gist-md5
 
       - name: zip_download
-        if  : steps.gist-md5.outputs.FILE_NUM != '0'  
         run: |
             zip -r attach.zip Ebpa/modules/download/*
 
       - name: Send mail
         id: retry
         uses: Wandalen/wretry.action@v1.0.11
-        if  : steps.gist-md5.outputs.FILE_NUM != '0'  
         with:
           #server_address: smtp.gmail.com
           #server_port: 465
@@ -112,14 +110,14 @@ jobs:
           attempt_limit: 3
           attempt_delay: 2000
 
-      - uses: popsiclestick/gist-sync-action@v1.2.0
-        if  :  steps.gist-md5.outputs.FILE_NUM != '0' && steps.retry.outcome == 'success'   
-        with:
-          auth: ${{ secrets.SEC_TOKEN }}
-          gist_url: https://gist.github.com/CECNdata/${{ matrix.gist_id }}
-          gist_title: md5.txt
-          gist_description: ${{ env.GITHUB_WORKFLOW }}
-          github_file: md5.txt
+      #- uses: popsiclestick/gist-sync-action@v1.2.0
+      #  if  :  steps.gist-md5.outputs.FILE_NUM != '0' && steps.retry.outcome == 'success'   
+      #  with:
+      #    auth: ${{ secrets.SEC_TOKEN }}
+      #    gist_url: https://gist.github.com/CECNdata/${{ matrix.gist_id }}
+      #    gist_title: md5.txt
+      #    gist_description: ${{ env.GITHUB_WORKFLOW }}
+      #    github_file: md5.txt
 
       #- name: send skype
       #  uses: Eloco/docker-action-send-skype@v2

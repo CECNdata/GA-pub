@@ -1,0 +1,152 @@
+name: 'misc_news_matrix_email_no_md5'
+
+on:
+  workflow_dispatch:
+    inputs:
+        tags:
+          description: 'action'  
+
+jobs:
+  shell:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+       include:
+         - atp: CN-ZE
+           skype_id: 19:655268b00f704dfc8e71592f93d73bd3@thread.skype 19:0f08ab319e7a431c9a013633f11b0c8b@thread.skype
+           skype_username : SKYPE_MINE_USERNAME
+           skype_password : SKYPE_MINE_PASSWORD
+           IF_PLAYWRIGHT: False
+           repo_name  : CECNdata/GA-sec
+           repo_token : SEC_TOKEN
+           gist_id : 8a9ec1720c1afd4fa99956e0a444d3c6
+         - atp: TWD-DO
+           skype_id: 19:655268b00f704dfc8e71592f93d73bd3@thread.skype
+           skype_username : SKYPE_MINE_USERNAME
+           skype_password : SKYPE_MINE_PASSWORD
+           IF_PLAYWRIGHT: False
+           repo_name  : CECNdata/GA-sec
+           repo_token : SEC_TOKEN
+           gist_id : ce2fbcb34df6c8ed823d6f511d9773c9
+
+    steps:
+      - name: Checkout codes
+        uses: actions/checkout@v2
+        with:
+          repository: '${{ matrix.repo_name  }}'
+          token:      '${{ secrets[matrix.repo_token]  }}'
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Install dependencies
+        run: |
+          cd news
+          python -m pip install --upgrade pip
+          pip install pipreqs
+          pip install openpyxl
+          pipreqs .
+          pip install -r requirements.txt
+        env:
+            MATRIX_SCRIPT: ${{matrix.script}}
+
+      - name: Install Playwright
+        if: ${{ env.IF_PLAYWRIGHT  == 'True'}}
+        run: |
+            python -m playwright install
+        env:
+            IF_PLAYWRIGHT: ${{ matrix.IF_PLAYWRIGHT }}
+
+      - name: run news atp
+        continue-on-error: true
+        run: |
+            cd news/instances/${{matrix.atp}}
+            python pdp.py ;  python parser.py  --if_filter False --file_path download/
+
+       #- name: gist-read
+       #  uses: sergeysova/gist-read-action@v1
+       #  id: example-gist
+       #  with:
+       #    gist_id: ${{matrix.gist_id}}
+       #    file_name: md5.txt
+       #  env:
+       #    GITHUB_TOKEN: ${{ secrets.SEC_TOKEN }}
+
+       #- name: md5_count
+       #  run: |
+       #      wget https://raw.githubusercontent.com/CECNdata/GA-pub/main/gist/gist_md5.py
+       #      echo "${{ steps.example-gist.outputs.content }}" > md5.txt
+       #      echo "[GA] ${{matrix.atp}} just capture new!" > message.txt
+       #      files_num=`python gist_md5.py --file_md5="./md5.txt" --file_dir="news/instances/${{matrix.atp}}/series.db"`
+       #      echo $files_num
+       #      echo '::set-output name=FILE_NUM::'$files_num
+       #      head md5.txt
+       #  id: gist-md5
+
+
+
+      - name: Send mail
+        id: retry
+        uses: Wandalen/wretry.action@v1.0.11
+        with:
+          #server_address: smtp.gmail.com
+          #server_port: 465
+          action: dawidd6/action-send-mail@v3
+          with: |
+            server_address: smtp-mail.outlook.com
+            server_port: 587
+            username : ${{ secrets.SKYPE_MINE_USERNAME }}
+            password : ${{ secrets.SKYPE_MINE_PASSWORD }}
+            subject: Actions for [ ${{matrix.atp}} ]
+            body: ${{matrix.atp}} just capture new release!
+            to: ${{matrix.atp}}@${{secrets.BASE_MAIL}}
+            from: cndata
+            attachments: news/instances/${{matrix.atp}}/series.db
+          attempt_limit: 3
+          attempt_delay: 2000
+
+      # - uses: popsiclestick/gist-sync-action@v1.2.0
+      #   if  :  steps.gist-md5.outputs.FILE_NUM != '0' && steps.retry.outcome == 'success'   
+      #   with:
+      #     auth: ${{ secrets.SEC_TOKEN }}
+      #     gist_url: https://gist.github.com/CECNdata/${{ matrix.gist_id }}
+      #     gist_title: md5.txt
+      #     gist_description: ${{ env.GITHUB_WORKFLOW }}
+      #     github_file: md5.txt
+
+      # - name: send skype
+      #   uses: Eloco/docker-action-send-skype@v2
+      #   if  : steps.gist-md5.outputs.FILE_NUM != '0'
+      #   with:
+      #       skype_username : ${{ secrets.SKYPE_MINE_USERNAME }}
+      #       skype_password : ${{ secrets.SKYPE_MINE_PASSWORD }}
+      #       skype_ids      : ${{ matrix.skype_id  }}
+      #       send_msg_path  : message.txt
+      #       send_file_path : news/instances/${{matrix.atp}}/series.db
+       
+       #- name: aws setup
+       #  if: ${{ env.IF_AWS == 'True'}}
+       #  run: |
+       #      python -m pip install awscli
+       #      mkdir ~/.aws
+       #      echo "[default]" >> ~/.aws/credentials
+       #      echo "[default]" >> ~/.aws/config
+       #      echo "aws_access_key_id    = ${{ secrets.AWS_ACCESS_KEY_ID     }}" >> ~/.aws/credentials
+       #      echo "aws_secret_access_key= ${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> ~/.aws/credentials
+       #      echo "region               = ap-east-1"                            >> ~/.aws/config
+       #  env:
+       #      IF_AWS: ${{ matrix.IF_AWS }}
+
+       #- name: aws md5 check
+       #  if: ${{ env.IF_AWS == 'True'}}
+       #  run: |
+       #      export action_bucket=s3://`echo ${GITHUB_REPOSITORY_OWNER}action | tr "[A-Z]" "[a-z]"`
+       #      export command="python aws/md5_aws.py --files_path=${{ matrix.FILE_BASE }} 2>/dev/null"
+       #      files_num=`timeout 5m bash -c '$command || $command || echo 0'` #retry command twice 
+       #      echo $files_num
+       #      echo '::set-output name=FILE_NUM::'$files_num
+       #  id: aws-md5
+       #  env:
+       #      IF_AWS: ${{ matrix.IF_AWS }}

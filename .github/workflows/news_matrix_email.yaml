@@ -21,7 +21,7 @@ jobs:
            IF_PLAYWRIGHT: False
            repo_name  : CECNdata/GA-sec
            repo_token : SEC_TOKEN
-           gist_id : 8a9ec1720c1afd4fa99956e0a444d3c6
+           gist_id : e1cb316ba658496eddfc97052de81971
          - atp: TWD-DO
            skype_id: 19:655268b00f704dfc8e71592f93d73bd3@thread.skype
            skype_username : SKYPE_MINE_USERNAME

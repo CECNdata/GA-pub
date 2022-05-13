@@ -90,7 +90,7 @@ jobs:
 
       - name: Send mail
         id: retry
-        uses: Wandalen/wretry.action@v1.0.11
+        uses: Wandalen/wretry.action@v1.0.15
         with:
           #server_address: smtp.gmail.com
           #server_port: 465

@@ -23,15 +23,15 @@ jobs:
            repo_name  : CECNdata/GA-sec
            repo_token : SEC_TOKEN
            gist_id : 07f692e939c5a9b27f2d9fe5d87aa785
-         - atp: CND-P
-           if_skype: False
-           skype_id: 19:655268b00f704dfc8e71592f93d73bd3@thread.skype 19:0f08ab319e7a431c9a013633f11b0c8b@thread.skype
-           skype_username : SKYPE_MINE_USERNAME
-           skype_password : SKYPE_MINE_PASSWORD
-           IF_PLAYWRIGHT: True
-           repo_name  : CECNdata/GA-sec
-           repo_token : SEC_TOKEN
-           gist_id : 9c79632d7ed0dd565e593fb925a0cfe5
+         #- atp: CND-P
+         #  if_skype: False
+         #  skype_id: 19:655268b00f704dfc8e71592f93d73bd3@thread.skype 19:0f08ab319e7a431c9a013633f11b0c8b@thread.skype
+         #  skype_username : SKYPE_MINE_USERNAME
+         #  skype_password : SKYPE_MINE_PASSWORD
+         #  IF_PLAYWRIGHT: True
+         #  repo_name  : CECNdata/GA-sec
+         #  repo_token : SEC_TOKEN
+         #  gist_id : 9c79632d7ed0dd565e593fb925a0cfe5
 
     steps:
       - name: Checkout codes

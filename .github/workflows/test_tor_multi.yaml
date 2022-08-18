@@ -18,7 +18,7 @@ jobs:
         continue-on-error: true
       - name: Build and Run containers
         run: |
-              docker run --rm -it --name tor -p 8118:3128 -p 4444:4444  -e "TOR_INSTANCES=5" -e "TOR_REBUILD_INTERVAL=3600" zhaowde/rotating-tor-http-proxy 
+              docker run --rm -it --name tor -p 8118:3128 -p 4444:4444  -e "TOR_INSTANCES=5" -e "TOR_REBUILD_INTERVAL=3600" -d zhaowde/rotating-tor-http-proxy 
               timeout 2m bash -c -- 'while [[ `docker logs tor --tail 1 2>&1` != *"Bootstrapped 100"* ]]; do (sleep 5;docker logs tor --tail 1 2>&1);done '
       
       - name: install ipinfo

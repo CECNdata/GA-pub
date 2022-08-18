@@ -14,5 +14,5 @@ jobs:
       - uses: tor-actions/setup-tor@main
       - name: test
         run: |
-          apt install ipinfo
+          sudo apt-get install ipinfo -y
           ipinfo `curl ifconfig.co`

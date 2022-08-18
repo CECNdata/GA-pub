@@ -1,0 +1,25 @@
+##减少对硬盘的读写
+AvoidDiskWrites 1
+## 端口可以配套选择(添加#为无效。去除#为生效)
+SocksListenAddress 127.0.0.1
+ControlPort 9151
+SocksPort 9150
+#ControlPort 9051
+#SocksPort 9050
+## 下面是控制端口密码验证(推荐)
+#HashedControlPassword 16:872860B76453A77D60CA2BB8C1A7042072093276A3D701AD684053EC4C
+## 使用网桥时,去除下列3项的#。1为有效，0为无效
+#Bridge [填入最新v6网桥]:XXX
+#UseBridges 1
+#UpdateBridgesFromAuthority 1
+## 使用HTTPSProxy时，去除下句的#。9666为无界端口，其他端口可对应修改。
+#HTTPSProxy 127.0.0.1:9666
+##防止默认写入相关信息（默认1）
+DirReqStatistics 0
+## 以下为排除的节点(StrictNodes 1为坚决执行)
+ExcludeNodes {hk},{mo},{sg},{th},{pk},{by},{ru},{ir},{vn},{ph},{my},{cu}
+ExcludeExitNodes {hk},{mo},{sg},{th},{pk},{by},{ru},{ir},{vn},{ph},{my},{cu}
+StrictNodes 1
+## 指定出口节点：
+StrictExitNodes 1
+ExitNodes {cn}   # 或 ExitNodes 固定的出口节点

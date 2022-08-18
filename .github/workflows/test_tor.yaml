@@ -25,4 +25,4 @@ jobs:
       - name: test
         run: |
           ipinfo `curl ifconfig.co`
-          ipinfo `curl --socks5 127.0.0.1:9050 ifconfig.co`
+          ipinfo `curl --socks5 127.0.0.1:9150 ifconfig.co`

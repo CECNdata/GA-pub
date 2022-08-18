@@ -12,9 +12,14 @@ jobs:
     name: Tor test
     steps:
       - uses: actions/checkout@main
-      - uses: tor-actions/setup-tor@main
-        with:
-          config-path: ${{ github.workspace }}/.github/.torrc
+      - run: docker pull dperson/torproxy
+      - uses: satackey/action-docker-layer-caching@v0.0.11
+        # Ignore the failure of a step and avoid terminating the job.
+        continue-on-error: true
+      - name: Build and Run containers
+        run: |
+              docker run  -it  -p 8118:8118 -p 9050:9050 -v ${{ github.workspace }}/.github/.torrc:/etc/tor/torrc:ro -d dperson/torproxy --name tor
+              timeout 2m bash -c -- 'while [[ `docker logs tor --tail 1 2>&1` != *"Bootstrapped 100"* ]]; do (sleep 5;docker logs tor --tail 1 2>&1);done '
       
       - name: install ipinfo
         run: |
@@ -25,4 +30,4 @@ jobs:
       - name: test
         run: |
           ipinfo `curl ifconfig.co`
-          ipinfo `curl --socks5 127.0.0.1:9150 ifconfig.co`
+          ipinfo `curl  -Lx 127.0.0.1:8118 ifconfig.me`

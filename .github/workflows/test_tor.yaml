@@ -18,7 +18,7 @@ jobs:
         continue-on-error: true
       - name: Build and Run containers
         run: |
-              docker run  -it  -p 8118:8118 -p 9050:9050 -v ${{ github.workspace }}/.github/.torrc:/etc/tor/torrc:ro -d dperson/torproxy --name tor
+              docker run  -it --name tor -p 8118:8118 -p 9050:9050 -v ${{ github.workspace }}/.github/.torrc:/etc/tor/torrc:ro -d dperson/torproxy 
               timeout 2m bash -c -- 'while [[ `docker logs tor --tail 1 2>&1` != *"Bootstrapped 100"* ]]; do (sleep 5;docker logs tor --tail 1 2>&1);done '
       
       - name: install ipinfo

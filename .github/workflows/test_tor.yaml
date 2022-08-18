@@ -1,0 +1,27 @@
+name: 'test tor'
+
+on:
+  workflow_dispatch:
+    inputs:
+        tags:
+          description: 'action'  
+
+jobs:
+  build:
+    runs-on: ubuntu-16.04
+    strategy:
+      matrix:
+        tor: [ '0.4.5.7', '0.4.5-rc7' ]
+    name: Tor ${{ matrix.tor }} sample
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup tor
+        uses: tor-actions/setup-tor@v1
+        with:
+          tor-version: ${{ matrix.tor }}
+      - run: tor
+
+      - name: test
+        run: |
+          apt install ipinfo
+          ipinfo `curl ifconfig.co`

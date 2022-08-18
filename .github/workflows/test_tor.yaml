@@ -12,9 +12,15 @@ jobs:
     name: Tor test
     steps:
       - uses: tor-actions/setup-tor@main
-      - name: test
+      
+      - name: install ipinfo
         run: |
           sudo add-apt-repository ppa:ipinfo/ppa
           sudo apt-get update
           sudo apt-get install ipinfo -y
+          cat /etc/tor/torrc
+          
+      - name: test
+        run: |
           ipinfo `curl ifconfig.co`
+          ipinfo `curl --socks5 127.0.0.1:9050 ifconfig.co`

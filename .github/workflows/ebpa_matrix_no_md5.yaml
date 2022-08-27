@@ -88,12 +88,15 @@ jobs:
       #  id: gist-md5
 
       - name: zip_download
+        id: download
+        continue-on-error: true
         run: |
             zip -r attach.zip Ebpa/modules/download/*
 
       - name: Send mail
         id: retry
         uses: Wandalen/wretry.action@v1.0.15
+        if: steps.download.outputs.status == 'success'
         with:
           #server_address: smtp.gmail.com
           #server_port: 465

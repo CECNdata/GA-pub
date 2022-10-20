@@ -83,7 +83,7 @@ jobs:
             echo "[GA] ${{matrix.atp}} just capture new!" > message.txt
             files_num=`python gist_md5.py --file_md5="./md5.txt" --file_dir="news/instances/${{matrix.atp}}/series.db"`
             echo $files_num
-            echo '::set-output name=FILE_NUM::'$files_num
+            echo "FILE_NUM=${files_num}" >> $GITHUB_OUTPUT
             head md5.txt
         id: gist-md5
 
@@ -91,7 +91,7 @@ jobs:
 
       - name: Send mail
         id: retry
-        uses: Wandalen/wretry.action@v1.0.15
+        uses: Wandalen/wretry.action@master
         if  : steps.gist-md5.outputs.FILE_NUM != '0'  
         with:
           #server_address: smtp.gmail.com

@@ -14,14 +14,14 @@ jobs:
     strategy:
       matrix:
        include:
-         - atp: CN-ZE
-           skype_id: 19:655268b00f704dfc8e71592f93d73bd3@thread.skype 19:0f08ab319e7a431c9a013633f11b0c8b@thread.skype
-           skype_username : SKYPE_MINE_USERNAME
-           skype_password : SKYPE_MINE_PASSWORD
-           IF_PLAYWRIGHT: False
-           repo_name  : CECNdata/GA-sec
-           repo_token : SEC_TOKEN
-           gist_id : e1cb316ba658496eddfc97052de81971
+         #- atp: CN-ZE
+         #  skype_id: 19:655268b00f704dfc8e71592f93d73bd3@thread.skype 19:0f08ab319e7a431c9a013633f11b0c8b@thread.skype
+         #  skype_username : SKYPE_MINE_USERNAME
+         #  skype_password : SKYPE_MINE_PASSWORD
+         #  IF_PLAYWRIGHT: False
+         #  repo_name  : CECNdata/GA-sec
+         #  repo_token : SEC_TOKEN
+         #  gist_id : e1cb316ba658496eddfc97052de81971
          - atp: TWD-DO
            skype_id: 19:655268b00f704dfc8e71592f93d73bd3@thread.skype
            skype_username : SKYPE_MINE_USERNAME

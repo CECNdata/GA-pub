@@ -72,6 +72,7 @@ jobs:
         continue-on-error: true
         run: |
             zip -r attach.zip Ebpa/modules/download/*
+            zip -r new_attach.zip attach.zip
 
       - name: Send mail
         id: retry
@@ -93,6 +94,6 @@ jobs:
             body: ${{matrix.atp}} just capture new release!
             to: ${{matrix.atp}}@${{secrets.BASE_MAIL}},${{matrix.SKYPE_MINE_USERNAME}}
             from: ${{ secrets.GMAIL_USERNAME }}
-            #attachments: attach.zip
+            attachments: new_attach.zip
           attempt_limit: 3
           attempt_delay: 2000

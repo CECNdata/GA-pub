@@ -71,8 +71,8 @@ jobs:
         id: download
         continue-on-error: true
         run: |
+            rm Ebpa/modules/download/*xls
             zip -r attach.zip Ebpa/modules/download/*
-            zip -r new_attach.zip attach.zip
 
       - name: Send mail
         id: retry
